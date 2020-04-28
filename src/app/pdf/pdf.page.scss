@@ -1,0 +1,171 @@
+#storeInformation {
+    // position: fixed;
+    width: 503px;
+    height: 894px;
+    font-family: 'Montserrat', sans-serif;
+    // display: none;
+}
+
+div.header {
+    margin-top: -5px;
+    background-color: #CC1332;
+    height: 200px;
+}
+
+div.logoImg {
+    display: flex;
+    justify-content: center;
+    margin-top: -110px;
+}
+
+.photoStore {
+    border-radius: 124px;
+}
+
+div.titleCustomer {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+div.subTitleCustomer {
+    display: flex;
+    justify-content: center;
+}
+
+span.titleCustomerText {
+    font-size: 70px;
+    font-weight: bold
+}
+
+span.subTitleCustomerText {
+    font-size: 30px;
+}
+
+div.buttonOrder {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+}
+
+button.btnOrder {
+    border-radius: 60px;
+    width: 330px;
+    height: 82px;
+    background-color: #00A800;
+    color: white;
+}
+
+.delimiter {
+    margin-top: 20px;
+}
+
+.txtBtnOrder {
+    font-size: 22px;
+    font-family: 'Montserrat', sans-serif;
+    width: 70%;
+    margin-left: 70px;
+    margin-top: -28px;
+}
+
+.shopping {
+    width: 30%;
+}
+
+.iconCart {
+    width: 37px;
+    height: 28px;
+}
+
+div.operation {
+    margin-top: 14px;
+    margin-bottom: 14px;
+}
+
+span.title {
+    color: #CC1332;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    justify-content: center;
+    display: flex;
+}
+
+div.rowDay {
+    width: 100%;
+    display: flex;
+    margin-bottom: 6px;
+}
+
+.dayWeek {
+    width: 38%;
+    padding-left: 12%;
+    font-weight: bold;
+}
+
+.hoursDay {
+    width: 62%;
+}
+
+div.paymentOptions {
+    width: 50%;
+}
+
+div.deliveryOptions {
+    width: 50%;
+}
+
+div.rowInformation {
+    width: 100%;
+    display: flex;
+    margin-top: 14px;
+    margin-bottom: 7px;
+}
+
+div.options {
+    width: 60%;
+    margin-left: 25%;
+}
+
+.deliveryText {
+    margin-left: 20px;
+}
+
+div.options.delivery {
+    text-align: center;
+}
+
+div.footer {
+    background-color: #CC1332;
+    height: 75px;
+}
+
+div.footerInformation {
+    color: #FFF;
+    padding-top: 3%;
+    font-family: 'Montserrat', sans-serif;
+    width: 100%;
+    display: flex;
+}
+
+div.imageWhatsapp {
+    width: 45%;
+}
+
+.iconWhatsapp {
+    width: 18px;
+    height: 18px;
+    float: right;
+}
+
+div.footerText {
+    width: 55%;
+    float: left;
+    padding-left: 2%;
+    padding-top: 1px;
+}
+
+div.numberFooter {
+    display: flex;
+    justify-content: center;
+    color: #FFF;
+}

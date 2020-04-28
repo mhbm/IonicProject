@@ -1,0 +1,104 @@
+div.content {
+    font-family: 'Montserrat', sans-serif;
+    color: black;
+}
+
+div.header {
+    background-color: #4A0057;
+    height: 100px;
+    width: 100%;
+}
+
+div.title {
+    color: #EE3F75;
+    text-align: center;
+    text-transform: uppercase;
+    margin: auto;
+    padding: 2.5em;
+}
+
+div.information {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+div.calendar {
+    width: 100%;
+}
+
+#calendarIcon {
+    width: 50px;
+    height: 50px;
+    display: block;
+    margin: 1em auto 0;
+}
+
+div.information {
+    padding: 5%;
+    width: 100%;
+    text-align: center;
+}
+
+.hourGrid {
+    width: 100%;
+}
+
+.hourDatetime {
+    width: 100%;
+    text-align: left;
+}
+
+.fabAddButton {
+    width: 25px;
+    height: 25px;
+}
+
+#addHour {
+    text-align: center;
+}
+
+.require {
+    color: rgb(241, 1, 1);
+}
+
+div.error-message {
+    font-size: smaller;
+    padding-left: 15px;
+    color: rgb(241, 1, 1);
+}
+
+ion-list {
+    width: 100%;
+    ion-grid.gridHour {
+        margin: 0 auto;
+    }
+    ion-grid {
+        ion-row {
+            ion-toggle {
+                float: right !important;
+            }
+            ion-col {
+                ion-label {
+                    padding-left: 5%;
+                }
+                ion-label.textDay {
+                    line-height: 20px;
+                    margin-top: 0.4em
+                }
+                ion-select {
+                    max-width: 100%;
+                    min-width: 100%;
+                }
+                ion-datetime {
+                    border: solid 1px #000000;
+                    width: 5em;
+                    margin-left: 1.5em;
+                }
+                ion-fab-button {
+                    margin-top: 1.8em;
+                }
+            }
+        }
+    }
+}

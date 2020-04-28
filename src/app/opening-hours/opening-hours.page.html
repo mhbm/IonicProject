@@ -1,0 +1,136 @@
+<ion-content>
+
+    <div class="row">
+        <div class="header">
+            <div class="title">
+                Horário de funcionamento
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="calendar">
+            <img id="calendarIcon" src="../../assets/icon/calendar.png" />
+        </div>
+        <div class="information">
+            Defina a data e o horário de funcionamento da sua empresa para que seus clientes saibam quando sua empresa estará aberta
+        </div>
+    </div>
+
+    <ion-grid class="gridHour">
+        <ion-row justify-content-center>
+            <ion-col size="12" id="addHour">
+                <ion-button color="primary" (click)="addOpeningHour()">Adicionar horário</ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+
+    <!-- Toggles in a List -->
+    <form [formGroup]="myform[i]" *ngFor="let option of myform; let i = index;">
+        <ion-list>
+            <ion-item>
+                <ion-grid class="gridHour">
+                    <div id="item">
+                        <ion-row>
+                            <ion-col size="6">
+                                <ion-label position="floating" required>Início <span class="require">*</span></ion-label>
+                                <ion-select formControlName="dayStart" placeholder="Escolher o dia" okText="Escolher" value="{{option.dayStart}}" cancelText="Cancelar" required>
+                                    <ion-select-option *ngFor="let dayOption of daysOptions" value="{{dayOption.key}}">
+                                        {{dayOption.value}}</ion-select-option>
+                                </ion-select>
+                                <div class="validation-errors">
+                                    <ng-container *ngFor="let validation of form_messages.dayStart">
+                                        <div class="error-message" *ngIf="myform[i].get('dayStart').hasError(validation.type) && (myform[i].get('dayStart').dirty || myform[i].get('dayStart').touched) ">
+                                            {{ validation.message }}
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </ion-col>
+
+                            <ion-col size="6">
+                                <ion-label position="floating">À</ion-label>
+                                <ion-select formControlName="dayEnd" placeholder="Escolher o dia" value="{{option.dayEnd}}">
+                                    <ion-select-option *ngFor="let dayOption of daysOptions" value="{{dayOption.key}}">
+                                        {{dayOption.value}}</ion-select-option>
+                                </ion-select>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row class="ion-justify-content-center">
+                            <ion-col size="6">
+                                <ion-label position="floating">De: <span class="require">*</span></ion-label>
+                                <ion-datetime formControlName="hourStart" displayFormat="HH:mm" value="{{option.hourStart}}" [(ngModel)]="option.hourStart" (ionChange)="verifyStartHour(i)" required>
+                                </ion-datetime>
+                                <div class="validation-errors">
+                                    <ng-container *ngFor="let validation of form_messages.hourStart">
+                                        <div class="error-message" *ngIf="myform[i].get('hourStart').hasError(validation.type) && (myform[i].get('hourStart').dirty || myform[i].get('hourStart').touched)">
+                                            {{ validation.message }}
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </ion-col>
+                            <ion-col size="6">
+                                <ion-label position="floating">Até: <span class="require">*</span></ion-label>
+                                <ion-datetime formControlName="hourEnd" displayFormat="HH:mm" value="{{option.hourEnd}}" [(ngModel)]="option.hourEnd" (ionChange)="verifyStartHour(i)"></ion-datetime>
+                                <div class="validation-errors">
+                                    <ng-container *ngFor="let validation of form_messages.hourEnd">
+                                        <div class="error-message" *ngIf="myform[i].get('hourEnd').hasError(validation.type) && (myform[i].get('hourEnd').dirty || myform[i].get('hourEnd').touched)">
+                                            {{ validation.message }}
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                    </div>
+                </ion-grid>
+            </ion-item>
+        </ion-list>
+
+
+        <!-- <ion-list>
+        <ion-item *ngFor="let day of openingHours; let i = index;">
+            <ion-grid item-content class="hourGrid">
+                <ion-row>
+                    <ion-col>
+                        <ion-label class="textDay">{{day.day}}</ion-label>
+                    </ion-col>
+                    <ion-col>
+                        <ion-toggle [(ngModel)]="day.selected"></ion-toggle>
+                    </ion-col>
+                </ion-row>
+                <ng-container *ngIf="day.selected">
+                    <ion-row *ngFor="let hour of day.hours">
+                        <ion-col size="4">
+                            <ion-label position="floating">De:</ion-label>
+                            <ion-datetime class="hourDatetime" displayFormat="HH:mm" [(ngModel)]="hour.start">
+                            </ion-datetime>
+                        </ion-col>
+                        <ion-col size="4">
+                            <ion-label position="floating">Até:</ion-label>
+                            <ion-datetime displayFormat="HH:mm" [(ngModel)]="hour.end"></ion-datetime>
+                        </ion-col>
+                        <ion-col>
+                            <ion-fab-button size="small" fab-fixed color="secundary" class="fabAddButton">
+                                <ion-icon class="addButton" name="add" (click)="addFieldHours(i)"></ion-icon>
+                            </ion-fab-button>
+                            <ion-fab-button size="small" fab-fixed color="danger" class="fabAddButton">
+                                <ion-icon class="addButton" name="remove" (click)="addFieldHours(i)"></ion-icon>
+                            </ion-fab-button>
+
+                        </ion-col>
+                    </ion-row>
+                </ng-container>
+            </ion-grid>
+        </ion-item>
+    </ion-list> -->
+    </form>
+
+    <ion-grid class="gridSave">
+        <ion-row justify-content-center>
+            <ion-col size="12" id="addHour">
+                <ion-button color="success" type="submit" (click)="onSubmit()">Salvar</ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+</ion-content>
