@@ -36,8 +36,9 @@
                             <ion-col size="6">
                                 <ion-label position="floating" required>Início <span class="require">*</span></ion-label>
                                 <ion-select formControlName="dayStart" placeholder="Escolher o dia" okText="Escolher" value="{{option.dayStart}}" cancelText="Cancelar" required>
-                                    <ion-select-option *ngFor="let dayOption of daysOptions" value="{{dayOption.key}}">
-                                        {{dayOption.value}}</ion-select-option>
+                                    <ng-container *ngFor="let dayOption of daysOptions">
+                                        <ion-select-option *ngIf="dayOption.visible" value="{{dayOption.key}}">{{dayOption.value}}</ion-select-option>
+                                    </ng-container>
                                 </ion-select>
                                 <div class="validation-errors">
                                     <ng-container *ngFor="let validation of form_messages.dayStart">
@@ -51,15 +52,16 @@
                             <ion-col size="6">
                                 <ion-label position="floating">À</ion-label>
                                 <ion-select formControlName="dayEnd" placeholder="Escolher o dia" value="{{option.dayEnd}}">
-                                    <ion-select-option *ngFor="let dayOption of daysOptions" value="{{dayOption.key}}">
-                                        {{dayOption.value}}</ion-select-option>
+                                    <ng-container *ngFor="let dayOption of daysOptions">
+                                        <ion-select-option *ngIf="dayOption.visible" value="{{dayOption.key}}">{{dayOption.value}}</ion-select-option>
+                                    </ng-container>
                                 </ion-select>
                             </ion-col>
                         </ion-row>
                         <ion-row class="ion-justify-content-center">
                             <ion-col size="6">
                                 <ion-label position="floating">De: <span class="require">*</span></ion-label>
-                                <ion-datetime formControlName="hourStart" displayFormat="HH:mm" value="{{option.hourStart}}" [(ngModel)]="option.hourStart" (ionChange)="verifyStartHour(i)" required>
+                                <ion-datetime formControlName="hourStart" displayFormat="HH:mm" value="{{option.hourStart}}" [(ngModel)]="option.hourStart" (ionChange)="verifyHour(i, 0, option.hourStart)" required>
                                 </ion-datetime>
                                 <div class="validation-errors">
                                     <ng-container *ngFor="let validation of form_messages.hourStart">
@@ -71,7 +73,7 @@
                             </ion-col>
                             <ion-col size="6">
                                 <ion-label position="floating">Até: <span class="require">*</span></ion-label>
-                                <ion-datetime formControlName="hourEnd" displayFormat="HH:mm" value="{{option.hourEnd}}" [(ngModel)]="option.hourEnd" (ionChange)="verifyStartHour(i)"></ion-datetime>
+                                <ion-datetime formControlName="hourEnd" displayFormat="HH:mm" value="{{option.hourEnd}}" [(ngModel)]="option.hourEnd" (ionChange)="verifyHour(i, 1, option.hourEnd)"></ion-datetime>
                                 <div class="validation-errors">
                                     <ng-container *ngFor="let validation of form_messages.hourEnd">
                                         <div class="error-message" *ngIf="myform[i].get('hourEnd').hasError(validation.type) && (myform[i].get('hourEnd').dirty || myform[i].get('hourEnd').touched)">
