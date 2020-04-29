@@ -35,8 +35,8 @@
                         <ion-row>
                             <ion-col size="6">
                                 <ion-label position="floating" required>Início <span class="require">*</span></ion-label>
-                                <ion-select formControlName="dayStart" placeholder="Escolher o dia" okText="Escolher" value="{{option.dayStart}}" cancelText="Cancelar" required>
-                                    <ng-container *ngFor="let dayOption of daysOptions">
+                                <ion-select formControlName="dayStart" placeholder="Escolher o dia" okText="Escolher" value="{{option.dayStart}}" cancelText="Cancelar" required (ionChange)="renewOptions(i)">
+                                    <ng-container *ngFor="let dayOption of arrayDaysOptions[i]">
                                         <ion-select-option *ngIf="dayOption.visible" value="{{dayOption.key}}">{{dayOption.value}}</ion-select-option>
                                     </ng-container>
                                 </ion-select>
@@ -51,8 +51,8 @@
 
                             <ion-col size="6">
                                 <ion-label position="floating">À</ion-label>
-                                <ion-select formControlName="dayEnd" placeholder="Escolher o dia" value="{{option.dayEnd}}">
-                                    <ng-container *ngFor="let dayOption of daysOptions">
+                                <ion-select formControlName="dayEnd" placeholder="Escolher o dia" value="{{option.dayEnd}}" (ionChange)="renewOptions(i)">
+                                    <ng-container *ngFor="let dayOption of arrayDaysOptions[i]">
                                         <ion-select-option *ngIf="dayOption.visible" value="{{dayOption.key}}">{{dayOption.value}}</ion-select-option>
                                     </ng-container>
                                 </ion-select>
@@ -80,6 +80,9 @@
                                             {{ validation.message }}
                                         </div>
                                     </ng-container>
+                                </div>
+                                <div>
+                                    <ion-icon name="trash" color="danger" class="deleteIcon" (click)="removeItem(i)"></ion-icon>
                                 </div>
                             </ion-col>
                         </ion-row>
