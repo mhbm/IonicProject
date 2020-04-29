@@ -151,6 +151,16 @@ export class OpeningHoursPage implements OnInit {
     }
   }
 
+  /**
+   * verifyHour
+   * 
+   * @author Mateus Macedo
+   * @param i Posição do array
+   * @param type Valor 1 ou 0, 0 se refere ao START e 1 se refere ao END
+   * @param hour Valor da hora
+   * @return {void}
+   */
+
   async verifyHour(i: number, type: number, hour: any) {
 
     if (type === 0) {
@@ -164,6 +174,16 @@ export class OpeningHoursPage implements OnInit {
     }
 
   }
+
+
+  /**
+   * onSubmit
+   * 
+   * Função do submit do formulário
+   * 
+   * @author Mateus Macedo
+   * @return {void}
+   */
 
   async onSubmit() {
 
@@ -187,86 +207,57 @@ export class OpeningHoursPage implements OnInit {
       this.firestore.doc(`login/${this.keyDoc}`).update({
         // openingHours: this.formattedDocumentFirebase()
         openingHours: this.myform.map(item => item.value)
-      }).then().catch(err => {
+      }).then( item=> {
+        console.log('AAAAA');
+        this.toastController.create({
+          message: 'Cadastro foi realizado com sucesso!',
+          duration: 3000,
+          color: "success",
+        }).then(toast => {
+          toast.present();
+
+        });
+      }).catch(err => {
         console.log(err);
       });
+
+
 
     }
 
   }
 
-  // formattedDocumentFirebase() {
 
+  /**
+   * __checkDaysNotAvailiable
+   * 
+   * Função que retorna um array com todos os dias não disponiveis
+   * 
+   * @param dayStart Dia de início
+   * @param dayEnd Dia final
+   * @param index Posição do array
+   * @return {Array<number>}
+   */
 
-  //   let arrayDays = [];
-
-  //   this.myform.map((form, index) => {
-  //     const dayStart = Number(form.value.dayStart);
-  //     const dayEnd = Number(form.value.dayEnd);
-  //     const hourStart = form.value.hourStart;
-  //     const hourEnd = form.value.hourEnd;
-
-  //     const arrayDayOption = this.checkDaysAvailiable(dayStart, dayEnd, index);
-
-  //     for (const iterator of arrayDayOption) {
-  //       const position = arrayDays.indexOf(iterator);
-
-  //       if (position === -1) {
-  //         arrayDays.push({
-  //           position : iterator,
-  //           hourStart,
-  //           hourEnd,
-  //         });
-  //       }
-  //     }
-  //   });
-  //   arrayDays.sort();
-
-  //   let formattedDays = [];
-  //   for (let cont = 0; cont < 8; cont++) {
-
-  //     const item = arrayDays.find(e => e.position === cont);
-  //     console.log('item->',item);
-  //     if (!item) {
-  //       console.log('1111')
-  //       formattedDays.push({
-  //         status: false,
-  //       });
-  //     } else {
-  //       console.log('222')
-  //       formattedDays.push({
-  //         status: true,
-  //         hourStart : item.hourStart,
-  //         hourEnd : item.hourEnd,
-  //       })
-  //     }
-      
-  //   }
-  //   console.log('arrayDays->', arrayDays);
-  //   console.log('formattedDays->', formattedDays);
-
-  //   return formattedDays;
-
-  // }
-
-
-  checkDaysAvailiable(dayStart: number, dayEnd: number, index: number): Array<number> {
+  private __checkDaysNotAvailiable(dayStart: number, dayEnd: any, index: number): Array<number> {
     let arrayDays: Array<number> = [];
 
-    if (dayEnd) {
+    if (dayEnd || this.myform[index].value.dayEnd === "0") {
 
       if (dayEnd === 7) {
         //feriado
         arrayDays.push(7);
         arrayDays.push(dayStart);
       } else {
-
         let i = dayStart;
         while (i != dayEnd && arrayDays.length !== 7) {
           arrayDays.push(Number(i));
           i++;
           if (i == 7) {
             i = 0;
+            if (dayEnd === 0) {
+              arrayDays.push(Number(0));
+            }
           }
         }
 
@@ -277,6 +268,9 @@ export class OpeningHoursPage implements OnInit {
     } else {
       //Nao preencheu o dateEnd
       arrayDays.push(dayStart);
+      if (this.myform[index].value.dayEnd === "0") {
+        arrayDays.push(dayEnd);
+      }
     }
 
     this.arrayDaysOptions[index].map(element => {
@@ -294,58 +288,38 @@ export class OpeningHoursPage implements OnInit {
     return arrayDays;
   }
 
-  removeItem(index: number) {
+  /**
+   * removeItem
+   * 
+   * Função para remover um item no form
+   * 
+   * @param index Posição no array
+   */
+  public removeItem(index: number) {
     this.arrayDaysOptions.splice(index, 1);
     this.myform.splice(index, 1);
   }
 
-  renewOptions(index: number) {
+  /**
+   * renewOptions
+   * 
+   * Função que limpa as opções dos dias que estão abaixo com os dias disponíveis
+   * 
+   * @param index Posição no array
+   * @return {void}
+   */
+  public renewOptions(index: number) {
 
     const newDayStart: number = Number(this.myform[index].value.dayStart);
     const newDayEnd: number = Number(this.myform[index].value.dayEnd);
 
-    let arrayDays = [];
+    const arrayDays = this.__checkDaysNotAvailiable(newDayStart, newDayEnd, index);
 
-    //indexRemove.push(element.get('dayStart').value);
-    if (newDayEnd) {
+    console.log('arrayDays->', arrayDays);
 
-      if (newDayEnd === 7) {
-        //feriado
-        arrayDays.push(7);
-        arrayDays.push(newDayStart);
-      } else {
-
-        let i = newDayStart;
-        while (i != newDayEnd && arrayDays.length !== 7) {
-          arrayDays.push(Number(i));
-          i++;
-          if (i == 7) {
-            i = 0;
-          }
-        }
-
-        if (arrayDays.length != 7) {
-          arrayDays.push(i);
-        }
-      }
-    } else {
-      //Nao preencheu o dateEnd
-      arrayDays.push(newDayStart);
-    }
-
-    this.arrayDaysOptions[index].map(element => {
-      if (!element.visible) {
-        const position = arrayDays.indexOf(element.key);
-        if (position === -1) {
-          //nao possui
-          arrayDays.push(element.key)
-        }
-      }
-    });
-
-    arrayDays.sort();
     if (this.arrayDaysOptions.length > 1) {
       for (let i = index + 1; i < this.arrayDaysOptions.length; i++) {
+
         this.arrayDaysOptions[i].map(element => {
           const position = arrayDays.indexOf(element.key);
           if (position !== -1) {
