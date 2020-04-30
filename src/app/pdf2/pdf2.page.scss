@@ -1,13 +1,9 @@
+// TODO - Melhorar o CSS
 #storeInformation {
     // position: fixed;
     width: 503px;
-    min-width: 503px;
-    max-width: 503px;
     height: 894px;
-    min-height: 894px;
-    max-height: 894px;
     font-family: 'Montserrat', sans-serif;
-    // display: none;
 }
 
 div.header {
@@ -22,8 +18,9 @@ div.logoImg {
     margin-top: -110px;
 }
 
-.photoStore {
+.img {
     border-radius: 124px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3)
 }
 
 div.titleCustomer {
@@ -92,18 +89,26 @@ span.title {
     font-weight: bold;
     justify-content: center;
     display: flex;
+    margin-top: 10px;
 }
 
 div.rowDay {
     width: 100%;
-    display: flex;
-    margin-bottom: 6px;
+    margin-top: 19px;
 }
 
 .dayWeek {
-    width: 38%;
-    padding-left: 12%;
+    font-size: 22px;
+    text-align: center;
+    margin-top: -7px;
+}
+
+.rowHours {
     font-weight: bold;
+    font-size: 55px;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    text-align: center;
 }
 
 .hoursDay {
@@ -141,6 +146,7 @@ div.options.delivery {
 div.footer {
     background-color: #CC1332;
     height: 75px;
+    margin-top: 2em;
 }
 
 div.footerInformation {
@@ -166,6 +172,12 @@ div.footerText {
     float: left;
     padding-left: 2%;
     padding-top: 1px;
+}
+
+div.numberFooter {
+    display: flex;
+    justify-content: center;
+    color: #FFF;
 }
 
 div.numberFooter {

@@ -1,7 +1,6 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
 
 import pdfMake from 'pdfmake';
-import html2canvas from 'html2canvas';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 
 import domtoimage from 'dom-to-image';
@@ -10,11 +9,16 @@ import domtoimage from 'dom-to-image';
 
 @Component({
   selector: 'app-pdf',
-  templateUrl: './pdf.page.html',
-  styleUrls: ['./pdf.page.scss'],
+  templateUrl: './pdf2.page.html',
+  styleUrls: ['./pdf2.page.scss'],
 })
-export class PdfPage {
-  name = 'Angular';
+
+// TODO - Verificar o texto que será enviado no whatsapp
+// TODO - O numero do telefone precisa ser da loja
+// TODO - Link deverá ser o da loja
+// TODO - O nome do pdf trocar para o nome da loja
+
+export class Pdf2Page {
 
   private __width: number = 503;
   private __height: number = 894;
@@ -32,14 +36,8 @@ export class PdfPage {
 
     const div = document.getElementById('storeInformation');
     const options = {
-      logging: true,
-      useCORS: true,
-      allowTaint: true,
-      scrollX: 0,
-      scrollY: 0,
-      scale: 1,
-      width: 503,
-      height: 894,
+      width: this.__width,
+      height: this.__height,
     };
 
     console.log('DIV->', div);
@@ -82,8 +80,8 @@ export class PdfPage {
       pdfMake.createPdf(docDefinition).download('test.pdf');
 
       return pdfMake;
-    }).then((doc) => {
-
+    }).catch(err => {
+      console.log(err);
     });
   }
 

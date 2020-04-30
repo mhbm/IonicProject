@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PdfPage } from './pdf.page';
+import { Pdf2Page } from './pdf2.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: PdfPage
+    component: Pdf2Page
   }
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class PdfPageRoutingModule {}
+export class Pdf2PageRoutingModule {}

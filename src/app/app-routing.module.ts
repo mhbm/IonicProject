@@ -16,6 +16,10 @@ const routes: Routes = [
     loadChildren: () => import('./pdf/pdf.module').then( m => m.PdfPageModule)
   },
   {
+    path: 'pdf2',
+    loadChildren: () => import('./pdf2/pdf2.module').then( m => m.Pdf2PageModule)
+  },
+  {
     path: 'opening-hours',
     loadChildren: () => import('./opening-hours/opening-hours.module').then( m => m.OpeningHoursPageModule)
   }
