@@ -42,7 +42,7 @@
                                 </ion-select>
                                 <div class="validation-errors">
                                     <ng-container *ngFor="let validation of form_messages.dayStart">
-                                        <div class="error-message" *ngIf="myform[i].get('dayStart').hasError(validation.type) && (myform[i].get('dayStart').dirty || myform[i].get('dayStart').touched) ||  (submitted && !myform[i].valid)">
+                                        <div class="error-message" *ngIf="myform[i].get('dayStart').hasError(validation.type) && (myform[i].get('dayStart').dirty || myform[i].get('dayStart').touched)">
                                             {{ validation.message }}
                                         </div>
                                     </ng-container>

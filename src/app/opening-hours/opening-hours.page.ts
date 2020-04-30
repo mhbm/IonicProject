@@ -16,11 +16,14 @@ export interface Item { name: string; cnpj: number; }
 })
 export class OpeningHoursPage implements OnInit {
 
+  //Variavel do array do formGroud
   public myform: Array<FormGroup> = [];
-  public errorMessage: string = '';
-  public keyDoc = "43166808000156";
-  public count: number = 0;
 
+  //chave do documento para salvar
+  public keyDoc = "43166808000156";
+
+
+  //Variavel com as mensagens de erro de cada campo
   public form_messages = {
     'dayStart': [
       { type: 'required', message: 'Dia de início é obrigatório.' },
@@ -34,6 +37,7 @@ export class OpeningHoursPage implements OnInit {
 
   };
 
+  //Array com as opções de cada dia
   public daysOptions: Array<any> = [
     { key: 0, value: 'Seg', visible: true },
     { key: 1, value: 'Ter', visible: true },
@@ -45,10 +49,13 @@ export class OpeningHoursPage implements OnInit {
     { key: 7, value: 'Fer', visible: true },
   ];
 
+  //Array de daysOptions
   public arrayDaysOptions = [];
 
+  //Variavel de submitted
   public submitted: boolean = false;
 
+  //Variavel controladora para verificar se pode adicionar mais dias
   public controlOptions: boolean = true;
 
   constructor(public toastController: ToastController, public formBuilder: FormBuilder, public firestore: AngularFirestore) { }
@@ -56,30 +63,44 @@ export class OpeningHoursPage implements OnInit {
   ngOnInit() {
   }
 
-  async addOpeningHour() {
+
+  private __showToaster(message: string, color: string) {
+    const toast = this.toastController.create({
+      message: message,
+      duration: 3000,
+      color: color,
+    }).then(toast => toast.present());
+  }
+
+  /**
+  * verifyHour
+  * 
+  * @author Mateus Macedo
+  * @param i Posição do array
+  * @param type Valor 1 ou 0, 0 se refere ao START e 1 se refere ao END
+  * @param hour Valor da hora
+  * @return {void}
+  */
+
+  addOpeningHour() {
 
     let indexRemove: Array<number> = [];
 
     if (!this.controlOptions) {
-      const toast = await this.toastController.create({
-        message: 'Todos os dias foram preenchidos.',
-        duration: 3000,
-        color: "danger",
-      });
-      toast.present();
+      this.__showToaster('Todos os dias foram preenchidos', 'danger');
     } else {
 
       let daysOptionsCopy = [];
       daysOptionsCopy = clone(this.daysOptions);
 
       if (this.myform.length > 0) {
+
         this.myform.forEach(element => {
+
           const valueStart: number = Number(element.get('dayStart').value)
           const valueEnd: number = Number(element.get('dayEnd').value);
 
-          //indexRemove.push(element.get('dayStart').value);
-          if (valueEnd) {
-
+          if (valueEnd || element.value.dayEnd === "0") {
             if (valueEnd === 7) {
               //feriado
               daysOptionsCopy.map(element => {
@@ -91,7 +112,7 @@ export class OpeningHoursPage implements OnInit {
             } else {
 
               let index = valueStart;
-              while (index != valueEnd && indexRemove.length !== 7) {
+              while (index !== valueEnd && indexRemove.length !== 7) {
 
                 indexRemove.push(Number(index));
 
@@ -99,13 +120,14 @@ export class OpeningHoursPage implements OnInit {
                 if (index == 7) {
                   index = 0;
                 }
-
               }
-
+              if (valueEnd === 0) {
+                indexRemove.push(Number(0));
+              }
               if (indexRemove.length != 7) {
                 indexRemove.push(index);
               }
-
+              
               indexRemove.map(item => {
                 daysOptionsCopy.map(element => {
                   if (element.key === item) {
@@ -115,7 +137,6 @@ export class OpeningHoursPage implements OnInit {
               })
             }
 
-            //indexRemove.push(element.get('dayEnd').value);
           } else {
             //Nao preencheu o dateEnd
             daysOptionsCopy.map(element => {
@@ -131,13 +152,7 @@ export class OpeningHoursPage implements OnInit {
 
 
       if (verifyOptionsAvailable.length == 0) {
-        this.controlOptions = false;
-        const toast = await this.toastController.create({
-          message: 'Todos os dias foram preenchidos.',
-          duration: 3000,
-          color: "danger",
-        });
-        toast.present();
+        this.__showToaster('Todos os dias foram preenchidos', 'danger');
       } else {
         this.arrayDaysOptions.push(daysOptionsCopy.map(e => e));
 
@@ -190,39 +205,20 @@ export class OpeningHoursPage implements OnInit {
     this.submitted = true;
     this.myform.forEach(item => {
       if (!item.valid) {
-        this.toastController.create({
-          message: 'Por favor preencha todos os campos obrigatórios.',
-          duration: 3000,
-          color: "danger",
-        }).then(toast => {
-          toast.present();
-
-        });
+        this.__showToaster('Por favor preencha todos os campos obrigatórios.', 'danger');
         this.submitted = false
       }
     });
 
     if (this.submitted) {
-      console.log(this.firestore.collection('login').valueChanges());
       this.firestore.doc(`login/${this.keyDoc}`).update({
         // openingHours: this.formattedDocumentFirebase()
         openingHours: this.myform.map(item => item.value)
-      }).then( item=> {
-        console.log('AAAAA');
-        this.toastController.create({
-          message: 'Cadastro foi realizado com sucesso!',
-          duration: 3000,
-          color: "success",
-        }).then(toast => {
-          toast.present();
-
-        });
+      }).then(item => {
+        this.__showToaster('Cadastro foi realizado com sucesso!', 'success');
       }).catch(err => {
         console.log(err);
       });
-
-
-
     }
 
   }
@@ -308,14 +304,13 @@ export class OpeningHoursPage implements OnInit {
    * @param index Posição no array
    * @return {void}
    */
+
   public renewOptions(index: number) {
 
     const newDayStart: number = Number(this.myform[index].value.dayStart);
     const newDayEnd: number = Number(this.myform[index].value.dayEnd);
 
     const arrayDays = this.__checkDaysNotAvailiable(newDayStart, newDayEnd, index);
-
-    console.log('arrayDays->', arrayDays);
 
     if (this.arrayDaysOptions.length > 1) {
       for (let i = index + 1; i < this.arrayDaysOptions.length; i++) {

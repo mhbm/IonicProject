@@ -36,6 +36,7 @@
         "clone": "^2.1.2",
         "cordova-browser": "^6.0.0",
         "core-js": "^2.5.4",
+        "dom-to-image": "^2.6.0",
         "es6-promise-plugin": "^4.2.2",
         "firebase": "^7.14.2",
         "fs": "0.0.1-security",
